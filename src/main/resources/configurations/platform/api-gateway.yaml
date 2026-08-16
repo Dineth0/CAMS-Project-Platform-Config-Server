@@ -1,0 +1,38 @@
+spring:
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-route
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/v1/user/**
+
+            - id: player-route
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/v1/player/**
+
+            - id: training-program-service
+              uri: lb://TRAINING-PROGRAM-SERVICE
+              predicates:
+                - Path=/api/v1/trainingProgram/**
+
+            - id: training-registration-service
+              uri: lb://TRAINING-REGISTRATION-SERVICE
+              predicates:
+                - Path=/api/v1/trainingRegistration/**
+
+          default-filters:
+            - PreserveHostHeader
+
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: "*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+server:
+  port: 7000
